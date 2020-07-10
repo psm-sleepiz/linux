@@ -1,13 +1,360 @@
 /*
- * Copyright 2016 Digi International, Inc.
+ * Device tree generated automatically by Digi ConnectCore Smart IOmux.
  *
- * The code contained herein is licensed under the GNU General Public
- * License. You may obtain a copy of the GNU General Public License
- * Version 2 or later at the following locations:
- *
- * http://www.opensource.org/licenses/gpl-license.html
- * http://www.gnu.org/copyleft/gpl.html
+ * This file is provided "AS IS" without any warranties and support.
+ * Please verify the pin assignation with the hardware reference manual.
  */
 
- /* Digi ConnectCore 6UL WiFi-Bluetooth SBC Pro */
- #include "imx6ul-ccimx6ulsbc-wb.dts"
+/dts-v1/;
+
+/* i.MX6 UltraLite CPU */
+#include "imx6ul.dtsi"
+/* ConnectCore 6UL (wireless/bluetooth variant) */
+#include "imx6ul-ccimx6ul-wb.dtsi"
+
+/ {
+    // Add here your platform model.
+    model = "ConnectCore 6UL";
+    // Add here your compatible platform.
+    compatible = "digi,ccimx6ul", "fsl,imx6ul";
+
+    sound {
+   	compatible = "fsl,imx-audio-sph0645","fsl,imx-mic-sph0645";
+    	model = "sph0645-audio";
+ 	cpu-dai = <&sai1>;
+        gpr = <&gpr 4 0x80000 0x80000>;
+    };
+    //  sound {
+    //	compatible = "fsl,imx-audio-sph0645",
+    //	                       "fsl,imx-mic-sph0645";
+    //	model = "sph0645-audio";
+    //	cpu-dai = <&sai2>;
+    //  gpr = <&gpr>;
+    //};
+
+    /*
+     * Reference block.
+     *
+     * Add your sensor configuration.
+     */
+    //sound_max98089: sound-max98089 {
+    //  compatible = "fsl,imx-audio-max98088";
+    //  model = "imx-max98088";
+    //  cpu-dai = <&sai1>;
+    //  audio-codec = <&max98089>;
+    //  asrc-controller = <&asrc>;
+    //  gpr = <&gpr>;
+    //  audio-routing =
+    //      "Headphone Jack", "HPL",
+    //      "Headphone Jack", "HPR",
+    //      "Ext Spk", "SPKL",
+    //      "Ext Spk", "SPKR",
+    //      "LineOut", "RECL",
+    //      "LineOut", "RECR",
+    //      "Mic1", "MIC1",
+    //      "Mic2", "MIC2",
+    //      "LineInA", "INA1",
+    //      "LineInA", "INA2",
+    //      "LineInB", "INB1",
+    //      "LineInB", "INB2";
+    //  status = "okay";
+    //};
+};
+
+&i2c2 {
+    clock-frequency = <100000>;
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_i2c2>;
+    status = "okay";
+
+    /*
+     * Reference block.
+     *
+     * Add the peripherals connected to the I2C.
+     */
+    //fusion_touch: fusion@14 {
+    //  compatible = "touchrev,fusion-touch";
+    //  reg = <0x14>;
+    //  pinctrl-names = "default";
+    //  pinctrl-0 = <&pinctrl_fusion_touch>;
+    //  interrupt-parent = <&gpio5>;
+    //  interrupts = <2 IRQ_TYPE_EDGE_RISING>;
+    //  status = "disabled";
+    //};
+};
+
+&i2c3 {
+    clock-frequency = <100000>;
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_i2c3>;
+    status = "okay";
+
+    /*
+     * Reference block.
+     *
+     * Add the peripherals connected to the I2C.
+     */
+    //fusion_touch: fusion@14 {
+    //  compatible = "touchrev,fusion-touch";
+    //  reg = <0x14>;
+    //  pinctrl-names = "default";
+    //  pinctrl-0 = <&pinctrl_fusion_touch>;
+    //  interrupt-parent = <&gpio5>;
+    //  interrupts = <2 IRQ_TYPE_EDGE_RISING>;
+    //  status = "disabled";
+    //};
+};
+
+
+&sai1 {
+
+      pinctrl-names = "default";
+      pinctrl-0 = <&pinctrl_sai1>;
+      assigned-clocks = <&clks IMX6UL_CLK_SAI1_SEL>,
+                        <&clks IMX6UL_CLK_PLL4_AUDIO_DIV>, // PLL4 ¿????
+                        <&clks IMX6UL_CLK_SAI1>;
+      assigned-clock-rates = <0>, <786432000>, <12288000>;          // PLL4 ¿????
+      assigned-clock-parents = <&clks IMX6UL_CLK_PLL4_AUDIO_DIV>;   // PLL4 ¿???? 
+      fsl,sai-mclk-direction-output;
+      status = "okay";
+
+};
+
+//&sai2 {
+//	pinctrl-names = "default";
+//	pinctrl-0 = <&pinctrl_sai2>;
+//	assigned-clocks = <&clks IMX6UL_CLK_SAI2_SEL>,
+//			<&clks IMX6UL_CLK_PLL4_AUDIO_DIV>,
+//			<&clks IMX6UL_CLK_SAI2>;
+//	assigned-clock-rates = <0>, <786432000>, <12288000>;
+//	assigned-clock-parents = <&clks IMX6UL_CLK_PLL4_AUDIO_DIV>;
+//    fsl,sai-mclk-direction-output; 
+//	status = "okay";
+//};
+
+&uart2 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_uart2>;
+
+    fsl,uart-has-rtscts;
+
+    status = "okay";
+};
+
+//&ecspi3 {
+//    fsl,spi-num-chipselects = <1>;
+//    pinctrl-names = "default";
+//    status = "okay";
+
+    /*
+     * Configure the GPIO that you selected as 'slave select'.
+     */
+//    cs-gpios = <&gpio5 05 GPIO_ACTIVE_LOW>;
+
+    /*
+     * ECSPI3 (as master)
+     */
+//    pinctrl-0 = <&pinctrl_ecspi3>;
+
+    /*
+     * Reference block.
+     *
+     * Add your slave devices here. Next is an example of spidev.
+     * Expect a harmless kernel warning if you enable spidev as slave.
+     */
+//    spidev@0 {
+//        reg = <0>;
+//        compatible = "spidev";
+//        spi-max-frequency = <1000000>;
+//    };
+
+//};
+
+&uart3 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_uart3>;
+
+    status = "okay";
+};
+
+&caam_keyblob {
+	status = "okay";
+};
+
+&uart5 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_console>;
+    status = "okay";
+};
+
+&usdhc2 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_usdhc2>;
+    no-1-8-v;
+    status = "okay";
+};
+
+&pwm5 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_pwm5>;
+    clocks = <&clks IMX6UL_CLK_PWM5>,
+         <&clks IMX6UL_CLK_PWM5>;
+    status = "okay";
+};
+
+&pwm6 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_pwm6>;
+    clocks = <&clks IMX6UL_CLK_PWM6>,
+         <&clks IMX6UL_CLK_PWM6>;
+    status = "okay";
+};
+
+&pwm3 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_pwm3>;
+    clocks = <&clks IMX6UL_CLK_PWM3>,
+         <&clks IMX6UL_CLK_PWM3>;
+    status = "okay";
+};
+
+&iomuxc {
+    pinctrl-0 = <&pinctrl_hog>;
+
+    imx6ul-ccimx6ul {
+        pinctrl_console: uart5grp {
+            fsl,pins = <
+                MX6UL_PAD_UART5_RX_DATA__UART5_DCE_RX		0x1b0b1
+                MX6UL_PAD_UART5_TX_DATA__UART5_DCE_TX		0x1b0b1
+            >;
+        };
+
+        pinctrl_hog: hoggrp {
+            fsl,pins = <
+                /* eMMC/SD# */
+                MX6UL_PAD_SNVS_TAMPER1__GPIO5_IO01		0x10b0
+                /* Radar Supply */
+                MX6UL_PAD_GPIO1_IO05__GPIO1_IO05		0x10b0
+                /* LED-EN */
+                MX6UL_PAD_GPIO1_IO08__GPIO1_IO08		0x10b0
+                /* BOOT_SIG */
+                MX6UL_PAD_GPIO1_IO03__GPIO1_IO03		0x10b0
+                /* GPIO9 */
+                MX6UL_PAD_GPIO1_IO09__GPIO1_IO09		0x10b0
+                /* gpio_charge_I */
+                MX6UL_PAD_LCD_DATA20__GPIO3_IO25		0x10b0
+                /* gpio_charge_Q */
+                MX6UL_PAD_LCD_DATA21__GPIO3_IO26		0x10b0
+                /* gpio_ADC_RDY */
+                MX6UL_PAD_LCD_DATA22__GPIO3_IO27		0x10b0
+                /* gpio_ADC_RST */
+                MX6UL_PAD_LCD_DATA23__GPIO3_IO28		0x10b0
+                /* gpio_XBee_RST */
+                MX6UL_PAD_SNVS_TAMPER5__GPIO5_IO05		0x10b0
+                /* gpio_XBee_DTR */
+                MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06		0x10b0
+                /* gpio_SPH_SELECT */
+                MX6UL_PAD_SNVS_TAMPER2__GPIO5_IO02		0x10b0
+                /* gpio_BTN1 */
+                MX6UL_PAD_LCD_DATA12__GPIO3_IO17		0x10b0
+                /* gpio_BTN2 */
+                MX6UL_PAD_LCD_DATA10__GPIO3_IO15		0x10b0
+                /* gpio_INT_TSL (input) */
+                MX6UL_PAD_LCD_ENABLE__GPIO3_IO01		0xb0
+            >;
+        };
+           /* Battery */
+        pinctrl_i2c2: i2c2grp {
+            fsl,pins = <
+                MX6UL_PAD_GPIO1_IO00__I2C2_SCL		0x4001b8b0
+                MX6UL_PAD_GPIO1_IO01__I2C2_SDA		0x4001b8b0
+            >;
+        };
+            /* Radar */
+        pinctrl_i2c3: i2c3grp {
+            fsl,pins = <
+                MX6UL_PAD_ENET2_RX_DATA0__I2C3_SCL        0x4001b8b0
+                MX6UL_PAD_ENET2_RX_DATA1__I2C3_SDA        0x4001b8b0
+            >;
+        };
+
+        pinctrl_sai1: sai1grp {
+            fsl,pins = <
+                MX6UL_PAD_LCD_DATA00__SAI1_MCLK		0x17088
+                MX6UL_PAD_LCD_DATA03__SAI1_RX_DATA		0x11088
+                MX6UL_PAD_LCD_DATA02__SAI1_TX_BCLK		0x17088
+                MX6UL_PAD_LCD_DATA04__SAI1_TX_DATA		0x11088
+                MX6UL_PAD_LCD_DATA01__SAI1_TX_SYNC		0x17088
+            >;
+        };
+        
+       // pinctrl_sai2: sai2grp {
+       //     fsl,pins = <
+       // 	        MX6UL_PAD_JTAG_TRST_B__SAI2_TX_DATA    0x11088
+       //        MX6UL_PAD_JTAG_TCK__SAI2_RX_DATA    0x11088
+       //      MX6UL_PAD_JTAG_TMS__SAI2_MCLK        0x17088
+       //      MX6UL_PAD_JTAG_TDI__SAI2_TX_BCLK    0x17088
+       //     MX6UL_PAD_JTAG_TDO__SAI2_TX_SYNC    0x17088
+       //   /* Interrupt */
+       //    MX6UL_PAD_SNVS_TAMPER7__GPIO5_IO07    0x80000000
+       // >;
+       //};
+        
+
+       pinctrl_uart2: uart2grp {
+            fsl,pins = <
+                MX6UL_PAD_UART2_RX_DATA__UART2_DCE_RX		0x1b030
+                MX6UL_PAD_UART2_TX_DATA__UART2_DCE_TX		0x1b030
+                MX6UL_PAD_UART2_RTS_B__UART2_DCE_RTS		0x1b0b1
+                MX6UL_PAD_UART2_CTS_B__UART2_DCE_CTS		0x1b0b1
+            >;
+        };
+        
+     //   pinctrl_ecspi3: ecspi3grp1 {
+     //       fsl,pins = <
+     //           MX6UL_PAD_UART2_CTS_B__ECSPI3_MOSI		0x10b0
+     //           MX6UL_PAD_UART2_RTS_B__ECSPI3_MISO		0x10b0
+     //           MX6UL_PAD_UART2_RX_DATA__ECSPI3_SCLK		0x10b0
+     //           /*Chip select */
+     //           MX6UL_PAD_SNVS_TAMPER5__GPIO5_IO05		0x10b0
+     //       >;
+     //   };
+
+        pinctrl_pwm5: pwm5grp {
+            fsl,pins = <
+                MX6UL_PAD_LCD_DATA18__PWM5_OUT		0x110b0
+            >;
+        };
+        
+        pinctrl_pwm6: pwm6grp {
+            fsl,pins = <
+                MX6UL_PAD_LCD_DATA19__PWM6_OUT		0x110b0
+            >;
+        };
+
+        pinctrl_pwm3: pwm3grp {
+            fsl,pins = <
+                MX6UL_PAD_GPIO1_IO04__PWM3_OUT		0x110b0
+            >;
+        };
+        
+
+	pinctrl_uart3: uart3grp {
+            fsl,pins = <
+                MX6UL_PAD_UART3_RX_DATA__UART3_DCE_RX		0x1b0b1
+                MX6UL_PAD_UART3_TX_DATA__UART3_DCE_TX		0x1b0b1
+            >;
+        };
+
+        pinctrl_usdhc2: usdhc2grp {
+            fsl,pins = <
+                MX6UL_PAD_CSI_VSYNC__USDHC2_CLK		0x10039
+                MX6UL_PAD_CSI_HSYNC__USDHC2_CMD		0x17059
+                MX6UL_PAD_CSI_DATA00__USDHC2_DATA0		0x17059
+                MX6UL_PAD_CSI_DATA01__USDHC2_DATA1		0x17059
+                MX6UL_PAD_CSI_DATA02__USDHC2_DATA2		0x17059
+                MX6UL_PAD_CSI_DATA03__USDHC2_DATA3		0x17059
+            >;
+        };
+    };
+};
