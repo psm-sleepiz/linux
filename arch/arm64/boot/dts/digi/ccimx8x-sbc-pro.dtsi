@@ -123,8 +123,9 @@
 		reg_5v_display: regulator@4 {
 			compatible = "regulator-fixed";
 			reg = <4>;
-			pinctrl-names = "default";
+			pinctrl-names = "default", "sleep";
 			pinctrl-0 = <&pinctrl_reg_5v_display>;
+			pinctrl-1 = <&pinctrl_reg_5v_display_sleep>;
 			regulator-name = "5v_display";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
@@ -473,12 +474,13 @@
 	 */
 	lvds0_goodix_touch1: gt9271@14 {
 		compatible = "goodix,gt9271";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_goodix_lvds0>;
 		reg = <0x14>;
 		/* Interrupt for LVDS0 */
 		interrupt-parent = <&lsio_gpio3>;
 		interrupts = <20 IRQ_TYPE_EDGE_FALLING>;
 		irq-gpios = <&lsio_gpio3 20 GPIO_ACTIVE_LOW>;
-		reload-fw-on-resume;
 		skip-firmware-request;
 		status = "disabled";
 	};
@@ -490,7 +492,6 @@
 		interrupt-parent = <&lsio_gpio3>;
 		interrupts = <20 IRQ_TYPE_EDGE_FALLING>;
 		irq-gpios = <&lsio_gpio3 20 GPIO_ACTIVE_LOW>;
-		reload-fw-on-resume;
 		skip-firmware-request;
 		status = "disabled";
 	};
@@ -691,12 +692,13 @@
 	 */
 	lvds1_goodix_touch1: gt9271@14 {
 		compatible = "goodix,gt9271";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_goodix_lvds1>;
 		reg = <0x14>;
 		/* Interrupt for LVDS1 */
 		interrupt-parent = <&lsio_gpio3>;
 		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
 		irq-gpios = <&lsio_gpio3 19 GPIO_ACTIVE_LOW>;
-		reload-fw-on-resume;
 		skip-firmware-request;
 		status = "disabled";
 	};
@@ -708,7 +710,6 @@
 		interrupt-parent = <&lsio_gpio3>;
 		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
 		irq-gpios = <&lsio_gpio3 19 GPIO_ACTIVE_LOW>;
-		reload-fw-on-resume;
 		skip-firmware-request;
 		status = "disabled";
 	};
@@ -954,8 +955,6 @@
 
 	pinctrl_lvds0: lvds0grp {
 		fsl,pins = <
-			/* LVDS0 touch interrupt */
-			IMX8QXP_QSPI0B_DATA2_LSIO_GPIO3_IO20	0x06000020
 			/* LVDS0 PWM backlight */
 			IMX8QXP_MIPI_DSI0_GPIO0_00_MIPI_DSI0_PWM0_OUT	0x00000020
 		>;
@@ -963,8 +962,6 @@
 
 	pinctrl_lvds1: lvds1grp {
 		fsl,pins = <
-			/* LVDS1 touch interrupt */
-			IMX8QXP_QSPI0B_DATA1_LSIO_GPIO3_IO19       0x06000020
 			/* LVDS1 PWM backlight */
 			IMX8QXP_MIPI_DSI1_GPIO0_00_MIPI_DSI1_PWM0_OUT 0x00000020
 		>;
@@ -1210,6 +1207,13 @@
 		>;
 	};
 
+	pinctrl_reg_5v_display_sleep: reg_5v_display_grp_sleep {
+		fsl,pins = <
+			/* 5V regulator power enable, latch */
+			IMX8QXP_SPI3_SCK_LSIO_GPIO0_IO13		0x07800020
+		>;
+	};
+
 	pinctrl_reg_3v3_pcie: reg_3v3_pcie_grp {
 		fsl,pins = <
 			/* Voltage for PCIe domain (PCIE_VCC_EN) */
@@ -1314,6 +1318,20 @@
 	pinctrl_mipi: mipi {
 		fsl,pins = <
 			IMX8QXP_QSPI0B_DATA3_LSIO_GPIO3_IO21 0xC0000041
+		>;
+	};
+
+	pinctrl_goodix_lvds0: goodixgrplvds0 {
+		fsl,pins = <
+			/* LVDS0 touch interrupt */
+			IMX8QXP_QSPI0B_DATA2_LSIO_GPIO3_IO20	0x06000060
+		>;
+	};
+
+	pinctrl_goodix_lvds1: goodixgrplvds1 {
+		fsl,pins = <
+			/* LVDS1 touch interrupt */
+			IMX8QXP_QSPI0B_DATA1_LSIO_GPIO3_IO19	0x06000060
 		>;
 	};
 };
